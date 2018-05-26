@@ -1,0 +1,103 @@
+\documentclass[]{article}
+\usepackage{stmaryrd} 
+\usepackage{xspace,listings,url,framed,amssymb,
+	mathpartir,hyperref,doi, mathtools,wrapfig,
+	stmaryrd, graphicx, tikz, colortbl, xparse, etoolbox,
+	pgffor, makecell, microtype}
+\usepackage[customcolors,norndcorners]{hf-tikz}
+\usetikzlibrary{arrows}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.multipart}
+\usetikzlibrary{positioning}
+\usetikzlibrary{calc}
+\usetikzlibrary{backgrounds}
+\usepackage[inline]{enumitem}
+\usepackage{epigraph}
+\setlength{\epigraphrule}{0pt}
+\renewcommand*{\textflush}{flushright}
+\setlength{\epigraphwidth}{4in}
+\newcommand{\code}[1]{{\tt #1}\xspace}
+\newcommand{\FZ}[1]{\textbf{FZ: #1}}
+\input{macros}
+
+%opening
+\title{README for Kafka artifact}
+\author{}
+\date{}
+
+
+\begin{document}
+
+\maketitle
+
+\section{Kafka's .Net implementation}
+
+Our Kafka and native translation implementations are written in F$\#$. The folder kafkaimpl contains the translation from the surface source language to kafka, the translation from kafka to CIL, and the type checker for Kafka. The folder kafkatests contains unit tests for the kafka implementation. The implementation of Kafka follows the same syntax and semantics as those presented in figure 3 and 4 of the paper. The implementation of our translation from the source language to Kafka follows the rules presented in section 5 of the paper. We strongly recommend loading, building, and running this implementation within Microsoft Visual Studio, it is by far the simplest and easiest option. 
+
+To run this implementation, it takes two command line variables. The gradual semantics you wish to use and the name path of the file which contains the code that you wish to run. 'beh' is the option for the behavioral semantics, 'opt' for the optional semantics, 'tra' for the transient semantics, and 'con' for the concrete semantics. The three litmus tests presented in the paper are readily available to be ran, and they are in the files: litmus1.source, litmus2.source, litmus3.source, found in the examples/source subdirectory. It is possible for the user to pass in a file of their own design.
+
+% what the litmus tests actually means
+The result of each litmus test under each gradual semantics reflect the behavior expressed in section 3 of our paper.
+
+
+\section{Kafka's Coq proof}
+
+We have proved type soundness for Kafka in Coq, the kafka.v file in the impl folder is the self-contained Coq 8.6 proof for KafKa. It is important that the version of Coq must be 8.6, otherwise any Coq IDE will work including the command line.
+
+Theorem 1 (page 14) in the paper corresponds to the Coq theorem \\
+
+Soundness: $\forall$ $\K$ $\e$ $\s$ $\t$,
+
+WellFormedState $\K$ $\e$ $\s$ $\rightarrow$ HasType \texttt{nil} $\s$ $\k$ $\e$ $\t$ $\rightarrow$ is$\_$sound $\k$ $\s$ $\e$ $\t$ .
+
+HasType \texttt{nil} $\s$ $\k$ $\e$ $\t$ \textit{corresponds to} \texttt{nil} $\s$ $\k$ $\vdash$ $\e$ : $\t$ \\
+
+The WellFormedState statement combines well-typedness of the class table and the running expression with heap typing. \\
+
+There are three holes in the proof, in kafka.v:
+\begin{itemize}
+\item Transitivity of structural recursive subtyping (line number: 342)
+\item Soundness of subtyping (line number: 350)
+\item That subtyping still holds when the class table is expanded (line number: 642)
+\end{itemize}
+	
+The first two components are well-known prior work (e.g. A Mechanical Soundness Proof for Subtyping Over Recursive Types, Jones 2016). 
+The third property simply requires that pre-existing subtyping judgments still hold when the class table is expanded.
+
+
+
+\section{Installation for the native languages}
+
+In section 4 of this document, we present each of the three litmus tests in
+the native code of the four gradual languages of TypeScript, Thorn, Typed
+Racket, and Reticulated Python. In this section, we will discuss how to
+install each of the native language that is required to run the native litmus
+tests.
+
+The sources for these programs can be found in the examples subdirectory, 
+in folders named with the language name and the semantics implemented.
+
+\subsection{TypeScript}
+
+For TypeScript, all the information regarding the language and the process of installment can be found at https://www.typescriptlang.org/.
+
+\subsection{Thorn}
+
+Unfortunately, there does not exist a public implementation of Thorn that is readily available. The Thorn skeleton, which we obtained through private means, was heavily savaged from bit rot and decay, and was not easily installable nor it contain all the necessary components, such as the thorn type checker.
+
+\subsection{Typed Racket}
+
+For Typed Racket, first you would need to install the Racket IDE called DrRacket, which can be found at https://docs.racket-lang.org/getting-started/index.html. In order to write a Typed Racket module within DrRacket you would be required to follow the three steps outlined at: https://docs.racket-lang.org/ts-guide/quick.html.
+
+
+\subsection{Reticulated Python}
+
+The information regarding the installment and running of Reticulated Python can be found at: https://github.com/mvitousek/reticulated. It requires Python version 3.5 or older. 
+
+
+\section{Litmus tests in native languages}
+
+Below we present source code for each of the litmus tests. If time permits, we would have loved to have to these litmus tests placed on an image. However, for the moment, you are required to copy and paste these code into their corresponding native implementation. We apologies for any inconvenience this has caused. 
+
+
+\end{document}

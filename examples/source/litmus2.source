@@ -1,0 +1,11 @@
+class A {
+    m(x:A):A { this } }
+class Q {
+    n(x:Q):Q { this } }
+class I {
+    m(x:Q):I { this } }
+class T {
+    s(x:I):T { this } 
+    t(x:any):any { this.s(x) }}
+
+new T().t(new A())

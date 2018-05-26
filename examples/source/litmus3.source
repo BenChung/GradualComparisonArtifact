@@ -1,0 +1,11 @@
+class C {
+    a(x:C):C { this } }
+class D {
+    b(x:D):D { this } }
+class E {
+    a(x:D):D { this } }
+class F {
+    m(x:E):E { x } 
+    n(x:any):any { this.m(x) }}
+
+new F().n(new C()).a(new C())

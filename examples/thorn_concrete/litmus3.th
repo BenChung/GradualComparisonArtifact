@@ -1,0 +1,9 @@
+
+class C() { def m(x:C):C = x; }
+class D() { def n(x:D):D = x; }
+class E() { def m(x:D):D = x; }      
+class F() {
+def m(x:E):E = x;
+def n(x:dyn):dyn = this.m(x);
+} 
+F().n(C()).m(C());

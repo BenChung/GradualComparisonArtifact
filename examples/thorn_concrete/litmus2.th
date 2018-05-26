@@ -1,0 +1,9 @@
+
+class Q() { def n(x: Q): Q = this;}
+class A() { def m(x:A): A = this;}
+class I() { def m(x:Q):I = this;}
+class T() {
+def s(x:I):T = this; 
+def t(x:dyn):dyn = this.s(x);
+}
+T().t(A());   
