@@ -144,8 +144,8 @@ let rec trs_anatrans(K:Map<string,k>)(env:Map<string,Type>)(ex : Expr)(tgt : Typ
     match subtype K (Set.empty) ty tgt with
     | true -> exp
     | false -> match check with
-        | true -> AST.SubCast(convert_type tgt, exp, posn)
-        | false -> exp
+               | true -> AST.SubCast(convert_type tgt, exp, posn)
+               | false -> exp
 and trs_syntrans(K:Map<string,k>)(env:Map<string,Type>) : Expr -> AST.Expr * Type = function
 |   That(_) -> raise (VariableNotFound("that", env))
 |   This(_) -> AST.This, match env.TryFind "this" with Some(t) -> t | None -> raise (VariableNotFound("this", env))

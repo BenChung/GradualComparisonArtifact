@@ -115,16 +115,16 @@ let rec syntype(env : Map<string, Type>) (K: Map<string, k>) (expr: Expr) : Type
                         | Some(_) -> raise (IncompatibleMethodFound(MD(m, t1, t2), rece, C))
                         | None -> raise (FieldOrMethodNotFound(m, rece, C))
     | DynCall(rece, m, arg, posn) -> match anatype env K rece Any, anatype env K arg Any with
-                               | true, true -> Any
-                               | _, _ -> raise (IncompatibleType(Any,rece,arg))
+                                     | true, true -> Any
+                                     | _, _ -> raise (IncompatibleType(Any,rece,arg))
     | SubCast(t, e, posn) -> match syntype env K e with
-                       | tp -> t 
+                             | tp -> t 
     | BehCast(t, e, posn) -> match syntype env K e with
-                       | (Class C) as tp -> 
-                            match t with 
-                            |   Class D -> raise (FullyTypedBehaviouralCast(t))
-                            |   Any -> t
-                       | Any -> t 
+                             | (Class C) as tp -> 
+                                match t with 
+                                |   Class D -> raise (FullyTypedBehaviouralCast(t))
+                                |   Any -> t
+                             | Any -> t 
                        
 and anatype(env : Map<string, Type>) (K: Map<string, k>) (expr: Expr) (against: Type) : bool = 
     let it = syntype env K expr

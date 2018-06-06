@@ -44,7 +44,7 @@ let findps(fds: fd list) (mds:md list) : (cgfd list) * (cgmd list) =
     let fdsUp : Map<string, cgfd> = List.fold (fun map el -> 
                                  match el with
                                  | (MDef(_, _, _, _, _)) -> map) fdsInter mds
-    let newmds = List.map (fun (MDef(n,v,t1,t2,e)) -> (CMDef(n,v,t1,t2,e))) (List.filter (fun md -> match md with MDef(_,_,_,_,_) -> true | _ -> false ) mds)
+    let newmds = List.map (fun (MDef(n,v,t1,t2,e)) -> (CMDef(n,v,t1,t2,e))) mds
     (List.map (fun (k,v) -> v) (Map.toList fdsUp), newmds)
 
 let transk(c:k):cgk =
