@@ -7,6 +7,6 @@ class I:
 class T:
 	def s(self, x:I) -> T:
 		return self
-def t(self, x:Dyn) -> Dyn:
-	return self.s(x)
+	def t(self, x:Dyn) -> Dyn:
+		return self.s(x)
 T().t(A())
